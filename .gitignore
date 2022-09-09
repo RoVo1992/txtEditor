@@ -13,5 +13,5 @@ org_structure/static
 /__pycache__
 *.py[cod]
 *$py.class
-.idea
+.idea/
 ../.idea/
