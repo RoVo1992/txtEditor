@@ -1,0 +1,17 @@
+{% extends 'chat/base.html' %}
+{% block content %}
+    <div class="container">
+        <form method="post" style="width: 50%; margin: 0 auto">
+            {% csrf_token %}
+            {% for elem in form %}
+            <div class="form-control">
+                        <label class="form-label" style="min-width: 150px; " for="{{elem.id_for_label}}">{{ elem.label }}</label>{{ elem }}
+                <div >{{ elem.errors }}</div>
+                    </div>
+            {% endfor %}
+            <div class="form-control">
+                <button type="submit" class="btn btn-primary mb-2" style="margin: 0 auto">Регистрация</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
