@@ -18,6 +18,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('', include('chat.urls')),
     path('user/', include('siteusers.urls'))
+=======
+    path('chat/', include('chat.urls'))
+>>>>>>> 9069924 ("first commit")
 ]

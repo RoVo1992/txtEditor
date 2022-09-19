@@ -14,5 +14,8 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 
 application = get_wsgi_application()
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 9069924 ("first commit")
