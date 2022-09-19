@@ -1,17 +1,12 @@
 <!-- chat/templates/chat/room.html -->
 {% load static %}
-<<<<<<< HEAD
 {% load chat_extras %}
-=======
-
->>>>>>> 9069924 ("first commit")
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="utf-8"/>
     <title>Chat Room</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     </script>
 </head>
@@ -32,126 +27,8 @@ html
         return false};"></textarea>
 </div>
 <p id="cursor" style="position: absolute; width: 20px; height: 20px; background-color: rgba(81, 81, 245, 0.2); display: none; border-radius: 10px; border: solid rgba(81, 81, 245, 0.5) 2px"></p>
-    {{ room_name|json_script:"room-name"}}
-    <script>
-
-=======
-    <link rel="import" href="ace-builds/src-noconflict/ace">
-
-</head>
-<style>
-    @import url("https://fonts.googleapis.com/css?family=Parisienne|Quicksand&display=swap");
-html,
-.body{
-    height: 100%;
-    	background-image: linear-gradient(to bottom right, rgb(200, 200, 230),  rgb(225, 225, 235));
-}
-
-.container {
-	height: 100%;
-	display: flex;
-	align-items: center;
-	/*justify-content: center;*/
-	flex-direction: column;
-	color: #000;
-}
-.lead {
-	font-family: "Quicksand";
-}
-.header-bar {
-	position: relative;
-	width: 50%;
-	min-width: 300px;
-	height: 50px;
-	border: 10px solid transparent;
-	border-top: 10px solid #000;
-	border-left: 10px solid #000;
-	box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.25) inset;
-}
-.header-bar::after {
-	content: "";
-	position: absolute;
-	top: -10px;
-	right: -10px;
-	width: 30%;
-	height: 49px;
-	border: 10px solid transparent;
-	border-bottom: 10px solid #000;
-	border-right: 10px solid #000;
-	transition: 0.3s linear all;
-}
-.header-bar > .logo {
-	position: absolute;
-	top: calc(50% - 20px);
-	left: 10px;
-	transform: translateY(-50%);
-	color: #fffc;
-	font-family: "Parisienne", cursive;
-	cursor: default;
-	user-select: none;
-}
-.slider-menu {
-	position: absolute;
-	top: 0;
-	right: 0;
-	display: flex;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	z-index: 1;
-}
-.slider-menu > li {
-	display: inline-flex;
-	padding: 14px;
-	margin-left: 2px;
-	font-family: "Quicksand", sans-serif;
-	color: #000;
-	cursor: pointer;
-	transition: 0.3s linear all;
-	user-select: none;
-}
-.slider-menu > li:hover {
-	color: #000;
-	box-shadow: 0 50px 5px rgba(0, 0, 0, 0.15) inset;
-}
-.aeu-signature {
-	position: fixed;
-	top: 5px;
-	left: 50%;
-	transform: translate(-50%);
-	font-size: 15px;
-	line-height: 30px;
-	background-color: #fff;
-	padding: 5px 10px;
-	border-radius: 25px;
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-}
-.aeu-signature {
-	font-family: "Quicksand";
-}
-.aeu-signature > img {
-	height: 30px;
-}
-
-</style>
-<body class="bg-light">
-<div class="container">
-	<p class="lead">Just my entry in yet another Codepen challenge.</p>
-	<div class="header-bar">
-		<ul class="slider-menu">
-			<li>Home</li>
-			<li>About</li>
-			<li>Services</li>
-		</ul>
-	</div>
-</div>
-<div class="container">
-    <textarea  contenteditable="true" id="textarea" style="white-space: pre; background-color: white; width: 30%; min-height: 40vh;"></textarea>
-</div>
-<p id="cursor" style="position: absolute; width: 20px; height: 20px; background-color: rgba(81, 81, 245, 0.2); display: none; border-radius: 10px; border: solid rgba(81, 81, 245, 0.5) 2px"></p>
     {{ room_name|json_script:"room-name" }}
     <script>
->>>>>>> 9069924 ("first commit")
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         let data ={}
         const chatSocket = new WebSocket(
@@ -166,11 +43,9 @@ html,
         chatSocket.onmessage = function(e) {
             let data = JSON.parse(e.data);
             if (data.message) {
-<<<<<<< HEAD
-                document.getElementById("textarea").value = data.message;
-=======
+
                 document.getElementById('textarea').value = data.message;
->>>>>>> 9069924 ("first commit")
+
             }
             document.getElementById('cursor').style.top = data.y +'px';
             document.getElementById('cursor').style.left = data.x +'px';
@@ -181,45 +56,42 @@ html,
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
-<<<<<<< HEAD
+
 
         document.addEventListener('change', messageKey);
-        function messageKey(e){
+        function messageKey(e) {
             let message = document.getElementById("textarea").value
 
 
-=======
-        document.addEventListener('change', messageKey);
-        function messageKey(e){
-            let message = document.getElementById('textarea').value
->>>>>>> 9069924 ("first commit")
-            return logKey(e, message)
-        }
+            document.addEventListener('change', messageKey);
 
-        document.addEventListener('mousemove', logKey);
-        function logKey(e, message) {
-            if (message) {
-                let data = {
-                    'x': `${e.clientX}`,
-                    'y': `${e.clientY}`,
-                    'message': message,
-                }
+            function messageKey(e) {
+                let message = document.getElementById('textarea').value
 
-
-                chatSocket.send(JSON.stringify(data))
-            }
-            else {
-                let data = {
-                    'x': `${e.clientX}`,
-                    'y': `${e.clientY}`,
-<<<<<<< HEAD
-
-=======
->>>>>>> 9069924 ("first commit")
-                }
-                chatSocket.send(JSON.stringify(data))
+                return logKey(e, message)
             }
 
+            document.addEventListener('mousemove', logKey);
+
+            function logKey(e, message) {
+                if (message) {
+                    let data = {
+                        'x': `${e.clientX}`,
+                        'y': `${e.clientY}`,
+                        'message': message,
+                    }
+
+
+                    chatSocket.send(JSON.stringify(data))
+                } else {
+                    let data = {
+                        'x': `${e.clientX}`,
+                        'y': `${e.clientY}`,
+                    }
+                    chatSocket.send(JSON.stringify(data))
+                }
+
+            }
         }
 
     </script>

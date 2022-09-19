@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-<<<<<<< HEAD
+
 import environ
 from django.urls import reverse_lazy
 
@@ -23,22 +23,16 @@ env = environ.Env(
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-=======
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
->>>>>>> 9069924 ("first commit")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-<<<<<<< HEAD
 SECRET_KEY = env('SECRET_KEY')
-=======
-SECRET_KEY = 'django-insecure-k22!5ibyk_9vpy16*$j1j19xfe5vpq+^ec#46a5n^e)zl^6%!_'
->>>>>>> 9069924 ("first commit")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -55,12 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     'chat', 'channels',
     'siteusers',
-=======
-    'chat', 'channels'
->>>>>>> 9069924 ("first commit")
 ]
 
 MIDDLEWARE = [
@@ -78,11 +68,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-<<<<<<< HEAD
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-=======
-        'DIRS': [],
->>>>>>> 9069924 ("first commit")
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,7 +89,6 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('NAME'),
         'USER': env('USER'),
@@ -112,10 +97,6 @@ DATABASES = {
         'PORT': env('PORT'),
         'TEST': {
                     'NAME': os.path.join(BASE_DIR, 'db_test.sqlite3')}
-=======
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
->>>>>>> 9069924 ("first commit")
     }
 }
 
@@ -150,10 +131,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-<<<<<<< HEAD
 LOGIN_REDIRECT_URL = reverse_lazy('index')
-=======
->>>>>>> 9069924 ("first commit")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -173,11 +151,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-<<<<<<< HEAD
 STATIC_ROOT = os.path.join(BASE_DIR, 'root')
 
 
-
-=======
-STATIC_ROOT = os.path.join(BASE_DIR, 'root')
->>>>>>> 9069924 ("first commit")
