@@ -6,17 +6,17 @@ from siteusers.models import SiteUser
 
 
 class RegisterUserForm(UserCreationForm):
-    username = forms.CharField(label='Логин',
-                               widget=forms.TextInput(attrs={'class': 'input-group-text',
-                                                             'style': 'min-width: 100%'}))
+    username = forms.CharField(label='Login',
+                               widget=forms.TextInput(attrs={'class': 'custom-form',
+                                                             'style': 'min-width: 100%;'}))
     email = forms.EmailField(label='Email',
-                             widget=forms.EmailInput(attrs={'class': 'input-group-text',
+                             widget=forms.EmailInput(attrs={'class': 'custom-form',
                                                             'style': 'min-width: 100%'}))
-    password1 = forms.CharField(label='Пароль',
-                                widget=forms.PasswordInput(attrs={'class': 'input-group-text',
+    password1 = forms.CharField(label='Password',
+                                widget=forms.PasswordInput(attrs={'class': 'custom-form',
                                                                   'style': 'min-width: 100%'}))
-    password2 = forms.CharField(label='Повтор пароля',
-                                widget=forms.PasswordInput(attrs={'class': 'input-group-text',
+    password2 = forms.CharField(label='Repeat Password',
+                                widget=forms.PasswordInput(attrs={'class': 'custom-form',
                                                                   'style': 'min-width: 100%'}))
 
     class Meta:
@@ -25,11 +25,11 @@ class RegisterUserForm(UserCreationForm):
 
 
 class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(label='Логин',
-                               widget=forms.TextInput(attrs={'class': 'input-group-text',
-                                                             'style': 'min-width: 100%'}))
-    password = forms.CharField(label='Пароль',
-                               widget=forms.PasswordInput(attrs={'class': 'input-group-text',
+    username = forms.CharField(label='Login',
+                               widget=forms.TextInput(attrs={'class': 'custom-form',
+                                                             'style': 'min-width: 100%; text-decoration: none'}))
+    password = forms.CharField(label='Password',
+                               widget=forms.PasswordInput(attrs={'class': 'custom-form',
                                                                  'style': 'min-width: 100%'}))
 
     class Meta:

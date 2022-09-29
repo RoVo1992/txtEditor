@@ -4,6 +4,9 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    last_applied_change = None
+    pre_applied_change = None
+
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
@@ -14,7 +17,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        self.user += 1
 
         await self.accept()
 
@@ -28,37 +30,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        print(text_data_json)
-        try:
-            message = text_data_json.get('message')
-        except KeyError:
-            pass
-        x = text_data_json.get('x')
-        y = text_data_json.get('y')
-
-        # Send message to room group
+        content = text_data_json.get('content')
+        user_id = text_data_json.get('user_id')
         await self.channel_layer.group_send(
             self.room_group_name,
             {
+                'user_id': user_id,
                 'type': 'chat_message',
-                'message': message,
-                'x': x,
-                'y': y,
-                'user': self.user
+                'content': content,
+                'pre_applied_change': self.pre_applied_change,
+                'last_applied_change': self.last_applied_change
             }
         )
-
     # Receive message from room group
+
     async def chat_message(self, event):
-        message = event['message']
-        x = event['x']
-        y = event['y']
+        content = event['content']
+        user_id = event['user_id']
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message,
-            'x': x,
-            'y': y,
-            'user': self.user
-
-
+            'content': content,
+            'user_id': user_id,
+            'type': 'chat_message',
+            'status': content not in [self.pre_applied_change, self.last_applied_change]
         }))
+        self.pre_applied_change = self.last_applied_change
+        self.last_applied_change = content

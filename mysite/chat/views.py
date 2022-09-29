@@ -5,19 +5,14 @@ from django.views.generic import TemplateView
 class IndexView(TemplateView):
     template_name = 'chat/index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(self.request.GET)
+        return context
+    
 
 class RoomView(TemplateView):
-    template_name = 'chat/room.html'
+    template_name = 'chat/room1.html'
 
-
-def index(request):
-    return render(request, 'chat/index.html')
-
-
-def room(request, room_name):
-    print(request.user)
-    return render(request, 'chat/room.html', {
-        'room_name': room_name
-    })
 
 

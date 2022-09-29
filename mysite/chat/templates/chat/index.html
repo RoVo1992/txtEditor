@@ -2,28 +2,32 @@
 {% extends 'chat/base.html' %}
 {% block content %}
     {% if user.is_authenticated %}
-<div class="container">
-    What chat room would you like to enter?<br>
-    <input id="room-name-input" type="text" size="100"><br>
-    <input id="room-name-submit" type="button" value="Enter">
-    <script>
-        document.querySelector('#room-name-input').focus();
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
-
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
-    </script>
-
+<div class="container" style="justify-content: center">
+<form style="display: flex; flex-direction: column;">
+    <p align="center" style="font: 1rem Monospace;">Choose language</p>
+    <select id="language" class="custom-select" style="margin: auto; height: 3rem; ">
+        <option value="python">Python</option>
+        <option value="javascript">JS</option>
+        <option value="java">Java</option>
+        <option value="css">CSS</option>
+        <option value="html">HTML</option>
+        <option value="c_cpp">C++</option>
+        <option value="json">JSON</option>
+        <option value="golang">Go</option>
+        <option value="ruby">Ruby</option>
+    </select>
+    <button class="custom-btn btn-1" type="button" onclick="creat_room({{ user.id }})">Create a room?</button>
+</form>
 </div>
+        <script>
+        function creat_room(roomName){
+            var lang = document.getElementById('language').value
+            console.log(lang)
+            var token = roomName + 'us' + Math.random().toString(36).substr(2);
+            window.location.pathname = '/chat/' + token +'/' + lang +'/';
+        }
+        </script>
     {% endif %}
 {% endblock %}
-=======
-</body>
-</html>
+
 

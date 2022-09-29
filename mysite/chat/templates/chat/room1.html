@@ -1,0 +1,98 @@
+{% load static %}
+{% load chat_extras %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <meta charset="UTF-8">
+    <title>demo!!</title>
+<style type="text/css" media="screen">
+body {
+    overflow: hidden;
+}
+
+#editor {
+    margin: 0;
+    position: absolute;
+    top: 20vh;
+    bottom: 10vw;
+    left: 25vw;
+    right: 25vw;
+}
+
+ </style>
+<body>
+{% header %}
+<p id="cursor" style="position: absolute; width: 20px; height: 20px; background-color: rgba(81, 81, 245, 0.2); display: none; border-radius: 10px; border: solid rgba(81, 81, 245, 0.5) 2px"></p>
+<pre id="editor">a
+    aa
+    a
+    a
+    a
+{{ user.id }}
+    a
+</pre>
+ <!-- load ace -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"
+type="text/javascript" charset="utf-8"></script>
+
+ <!-- load ace language tools -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6//ext-language_tools.js"></script>
+    {{ room_name|json_script:"room-name" }}
+<script>
+define('ace/mode/{{lang}}', function(require, exports, module) {
+    "use strict";
+    var oop = require("../lib/oop");
+    exports.JavaHighlightRules = PythonHighlightRules;
+});
+
+    // trigger extension
+    var langTools = ace.require("ace/ext/language_tools");
+    var editor = ace.edit("editor");
+
+    editor.setTheme("ace/theme/monokai");
+    var pythonmode = editor.session.setMode("ace/mode/{{lang}}");
+    editor.setHighlightActiveLine(true);
+    //enable autocompletion and snippets
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: false
+
+});
+    var just_cleared_buffer = null ;
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    let data ={}
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+    chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+
+    editor.on('change', function(delta) {
+        data = {
+            'content': delta,
+            'user_id': {{ user.id }},
+        };
+        return chatSocket.send(JSON.stringify(data))
+
+    });
+
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data)
+
+        console.log(data)
+        if (data.status && data.user_id !== {{ user.id }}) {
+            editor.session.doc.applyDelta(data.content)
+        }
+    }
+
+
+   </script>
+</body>

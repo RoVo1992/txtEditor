@@ -13,13 +13,15 @@
 <style>
     @import url("https://fonts.googleapis.com/css?family=Parisienne|Quicksand&display=swap");
 html
-
+    textarea::placeholder{
+    font-style: italic;
+}
 </style>
 <body>
 {% header %}
 <div class="container" style="flex-direction: row; justify-content: center">
-{#    <textarea id="number_col" style="float: right; min-height: 50vh; width: 1.5rem; border: none"></textarea>#}
-    <textarea placeholder="" contenteditable="true" id="textarea" style="white-space: pre; background-color: white; width: 50%; min-height: 50vh; font: 1rem Monospace; border: none"
+
+    <textarea autofocus placeholder="type some text" contenteditable="true" id="textarea" style="white-space: pre; background-color: #202124 ; width: 50%; min-height: 50vh; font: 1rem Monospace; border: solid grey 1px; color: lightgrey"
     onkeydown="if(event.keyCode===9){
         var v=this.value,s=this.selectionStart,e=this.selectionEnd;
         this.value=v.substring(0, s)+'\t'+v.substring(e);
@@ -43,14 +45,14 @@ html
         chatSocket.onmessage = function(e) {
             let data = JSON.parse(e.data);
             if (data.message) {
-
                 document.getElementById('textarea').value = data.message;
 
             }
-            document.getElementById('cursor').style.top = data.y +'px';
-            document.getElementById('cursor').style.left = data.x +'px';
-            document.getElementById('cursor').style.display = 'inline';
-            console.log(data)
+            if (data.user_id != {{ user.id }}) {
+                document.getElementById('cursor').style.top = data.y +'px';
+                document.getElementById('cursor').style.left = data.x +'px';
+                document.getElementById('cursor').style.display = 'inline';
+                console.log(data.user_id, {{ user.id }})}
         };
 
         chatSocket.onclose = function(e) {
@@ -59,19 +61,14 @@ html
 
 
         document.addEventListener('change', messageKey);
+
         function messageKey(e) {
-            let message = document.getElementById("textarea").value
+            let message = document.getElementById('textarea').value
 
+            return logKey(e, message)
+        }
 
-            document.addEventListener('change', messageKey);
-
-            function messageKey(e) {
-                let message = document.getElementById('textarea').value
-
-                return logKey(e, message)
-            }
-
-            document.addEventListener('mousemove', logKey);
+        document.addEventListener('mousemove', logKey);
 
             function logKey(e, message) {
                 if (message) {
@@ -79,12 +76,14 @@ html
                         'x': `${e.clientX}`,
                         'y': `${e.clientY}`,
                         'message': message,
+                        'user_id':{{ user.id }},
                     }
 
 
                     chatSocket.send(JSON.stringify(data))
                 } else {
                     let data = {
+                        'user_id':{{ user.id }},
                         'x': `${e.clientX}`,
                         'y': `${e.clientY}`,
                     }
